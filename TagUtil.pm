@@ -8,7 +8,6 @@ use warnings;
 
 require Exporter;
 use AutoLoader qw(AUTOLOAD);
-use HTML::Validator; #Posibily for checking files.
 
 our @ISA = qw(Exporter);
 
@@ -35,7 +34,7 @@ closetagged
 tagpos
 );
 
-our $VERSION = '1.4';
+our $VERSION = '1.42';
 
 #class attributes.
 
@@ -43,7 +42,6 @@ our $VERSION = '1.4';
 #$file will someday be available for checking. 
 my $file;
 
-my $up = HTML::Validator->new($file);
 
 ###########################
 #####Class Constructor#####
@@ -98,6 +96,20 @@ sub _is_close_tagged {
       return 0;
    }
 }
+
+##
+## Private method that matches for empty.
+##
+
+sub _is_empty_element {
+   my $arg = shift || $_;
+   if ($arg =~ /<(([a-zA-Z])+((\s+\w+)=?("?.+"?)?){0,})(\s*\/)\s*>/) {
+      return 1;
+    } else {
+      return 0;
+   }
+}   
+
 
 ####################################
 ##########PUBLIC METHODS############
@@ -157,13 +169,23 @@ sub tagpos {
    return index ($string, $tag, $offset) + 1;
 }
 
+sub empty {
+   my $self = shift;
+   my $string = shift || $_;
+   if (_is_empty_element ($string)) {
+      return 1;
+   } else {
+      return 0;
+   }
+}   
+  
 1;
 
 __END__
 
 =head1 NAME
 
-HTML::TagUtil - Perl Utility for HTML
+HTML::TagUtil - Perl Utility for HTML tags
 
 =head1 SYNOPSIS
 
@@ -279,6 +301,25 @@ some examples are:
  print $pos; #prints "6" again because counting starts from one for this.
  
  tagpos can handle anything that is surrounded by < and >.
+
+=item $tagger->empty
+
+B<empty> checks to see if the specified string contains
+an empty element in it. That is, one that ends with " />".
+it returns true if it does have one in it, or false otherwise.
+some examples would be:
+
+ $_ = "<img />";
+ print "Empty" if (empty); #prints "Empty"
+ $_ = "<img/>";
+ print "Empty" if (empty); #prints "Empty"
+ $_ = "<img></img>";
+ print "Empty" if (empty); #prints nothing
+ $_ = "<img src=\"http://www.example.com/cool.gif\" />";
+ print "Empty" if (empty); #prints "Empty"
+ 
+empty can handle attributes and varying amounts of space before
+the end tag.
 
 =back
 
