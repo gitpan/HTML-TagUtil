@@ -2,5 +2,5 @@ Changes
 Makefile.PL
 MANIFEST
 README
-TagUtil.pm
-t/1.t
+t/HTML-TagUtil.t
+lib/HTML/TagUtil.pm

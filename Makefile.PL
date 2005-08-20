@@ -1,12 +1,12 @@
-use 5.008001;
+use 5.008006;
 use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 WriteMakefile(
-    NAME              => 'HTML::TagUtil',
-    VERSION_FROM      => 'TagUtil.pm', # finds $VERSION
+    NAME              => 'HTML::TagUtil-1.43',
+    VERSION_FROM      => 'lib/HTML/TagUtil-1.43.pm', # finds $VERSION
     PREREQ_PM         => {}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'TagUtil.pm', # retrieve abstract from module
-       AUTHOR         => 'Nightcat Linc <nightcat@crocker.com>') : ()),
+      (ABSTRACT_FROM  => 'lib/HTML/TagUtil-1.43.pm', # retrieve abstract from module
+       AUTHOR         => '<nightcat> <linc@apple.com>') : ()),
 );
